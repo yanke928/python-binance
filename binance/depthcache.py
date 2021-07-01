@@ -168,11 +168,11 @@ class BaseDepthCacheManager:
     async def __aexit__(self, *args, **kwargs):
         await self._socket.__aexit__(*args, **kwargs)
 
-    async def recv(self):
+    async def recv(self, timeout=60):
         dc = None
         while not dc:
             try:
-                res = await asyncio.wait_for(self._socket.recv(), timeout=self.TIMEOUT)
+                res = await asyncio.wait_for(self._socket.recv(), timeout=timeout)
             except Exception as e:
 
                 logging.warning(e)
